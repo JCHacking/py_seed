@@ -1,0 +1,153 @@
+[project]
+name = "py_seed"
+version = "1.1.0"
+description = "Seed for python projects"
+
+maintainers = [
+    { name = "Juan Cruz Mencia Naranjo", email = "jcmencia@arsys.es" }
+]
+authors = [
+    { name = "Juan Cruz Mencia Naranjo", email = "jcmencia@arsys.es" }
+]
+
+
+[tool.poetry]
+name = "py_seed"
+version = "1.1.0"
+description = "Seed for python projects"
+keywords = ["Python", "Library", "Seed", "Skeleton"]
+license = "Proprietary"
+
+maintainers = [
+    "Juan Cruz Mencia Naranjo <jcmencia@arsys.es>"
+]
+authors = [
+    "Juan Cruz Mencia Naranjo <jcmencia@arsys.es>"
+]
+
+readme = "README.md"
+repository = ""
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.docs]
+optional = true
+[tool.poetry.group.docs.dependencies]
+sphinx = "^6.0"
+sphinx-rtd-theme = "^1.2"
+sphinx-pyproject = "^0.1"
+
+[tool.poetry.group.tests]
+optional = true
+[tool.poetry.group.tests.dependencies]
+bandit = "^1.7"
+coverage = "^7.2"
+cyclonedx-bom = "^3.11"
+flake8="^6.0"
+flake8-bandit = "^4.1"
+flake8-bugbear = "^23.2"
+flake8-builtins = "^2.1"
+flake8-docstrings = "^1.7"
+flake8-formatter-junit-xml = "^0.0"
+flake8-html = "^0.4"
+flake8-pyproject="^1.2"
+mypy = { version = "^1.1", extras = ["reports"] }
+nose2 = "^0.12"
+nose2-html-report = "^0.6"
+pep8-naming = "^0.13"
+python-kacl = "^0.3"
+
+[tool.poetry.group.dev]
+optional = true
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.18"
+
+
+[tool.poe.tasks]
+build = { script = "scripts.build:regenerate" }
+build-clean = { script = "scripts.build:clean" }
+doc = { script = "scripts.doc:regenerate" }
+doc-clean = { script = "scripts.doc:clean" }
+export-dependencies = { script = "scripts.export_dependencies:regenerate" }
+export-dependencies-clean = { script = "scripts.export_dependencies:clean" }
+outdated-dependencies = { script = "scripts.outdated_dependencies:regenerate" }
+outdated-dependencies-clean = { script = "scripts.outdated_dependencies:clean" }
+test-changelog = { script = "scripts.test_changelog:execute" }
+test-linter = { script = "scripts.test_linter:reexecute" }
+test-linter-clean = { script = "scripts.test_linter:clean" }
+test-tests = { script = "scripts.test_tests:retest" }
+test-tests-clean = { script = "scripts.test_tests:clean" }
+test-typing = { script = "scripts.test_typing:reexecute" }
+test-typing-clean = { script = "scripts.test_typing:clean" }
+test = [ "test-changelog", "test-linter", "test-typing", "test-tests", ]
+test-clean = [ "test-linter-clean", "test-typing-clean", "test-tests-clean", ]
+all = [ "build", "doc", "export-dependencies", "outdated-dependencies", "test-changelog", "test-linter",
+    "test-typing", "test-tests" ]
+clean = [ "build-clean", "doc-clean", "export-dependencies-clean", "outdated-dependencies-clean",
+    "test-linter-clean", "test-typing-clean", "test-tests-clean"]
+
+
+[tool.sphinx-pyproject]
+html_theme = "sphinx_rtd_theme"
+copyright = 'QA Team'
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon"]
+autodoc_default_options = { members = true, undoc-members = true, private-members = true, ignore-module-all = true }
+
+
+[tool.coverage.run]
+data_file = "reports/coverage/.coverage"
+source = ["src"]
+[tool.coverage.paths]
+source = ["src"]
+[tool.coverage.report]
+skip_empty = true
+exclude_lines = [
+    "pragma: no cover",
+    "pass"
+]
+[tool.coverage.html]
+directory = "reports/coverage"
+title = "Coverage for tests"
+[tool.coverage.xml]
+output = "reports/coverage/coverage.xml"
+
+
+[tool.flake8]
+format = "html"
+htmldir = "reports/linter"
+docstring-convention = "google"
+max-line-length = 120
+indent-size = 4
+max-complexity = 10
+color = "always"
+show-source = true
+statistics = true
+per-file-ignores = "__init__.py:F401"
+
+
+[tool.mypy]
+html_report = "reports/typing"
+junit_xml = "reports/typing/junit.xml"
+files = "src, tests"
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+disallow_subclassing_any = true
+check_untyped_defs = true
+no_implicit_optional = true
+show_error_codes = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_unreachable = true
+strict_equality = true
+strict_concatenate = true
+
+
+[build-system]
+requires = ["poetry-core>=1.1.0"]
+build-backend = "poetry.core.masonry.api"
