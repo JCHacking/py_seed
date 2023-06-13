@@ -52,17 +52,7 @@ pipeline {
                     sh "poe test-tests"
 
                     archiveArtifacts artifacts: "reports/coverage/**"
-                    step([
-                        $class: 'CoberturaPublisher',
-                        autoUpdateHealth: false,
-                        autoUpdateStability: false,
-                        coberturaReportFile: 'reports/coverage/coverage.xml',
-                        failUnhealthy: false, failUnstable: false,
-                        maxNumberOfBuilds: 0,
-                        onlyStable: false,
-                        sourceEncoding: 'UTF_8',
-                        zoomCoverageChart: false
-                    ])
+                    cobertura coberturaReportFile: 'reports/coverage/coverage.xml'
 
                     archiveArtifacts artifacts: "reports/tests/**"
                     junit "reports/tests/junit.xml"
