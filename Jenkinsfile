@@ -15,6 +15,7 @@ pipeline {
                 withPythonEnv(venv_bin){
                     sh "pip install poetry"
                     sh "poetry install --with dev,tests,docs"
+                    sh "poetry update --with dev,tests,docs"
                 }
             }
         }
@@ -59,7 +60,7 @@ pipeline {
                         failUnhealthy: false, failUnstable: false,
                         maxNumberOfBuilds: 0,
                         onlyStable: false,
-                        sourceEncoding: 'ASCII',
+                        sourceEncoding: 'UTF-8',
                         zoomCoverageChart: false
                     ])
 
