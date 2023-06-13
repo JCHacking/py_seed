@@ -60,7 +60,7 @@ pipeline {
                         failUnhealthy: false, failUnstable: false,
                         maxNumberOfBuilds: 0,
                         onlyStable: false,
-                        sourceEncoding: 'UTF-8',
+                        sourceEncoding: 'UTF_8',
                         zoomCoverageChart: false
                     ])
 
