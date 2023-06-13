@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label "python"
-    }
+    agent any
 
     environment {
         venv = "${pwd()}/venv"
@@ -11,7 +9,7 @@ pipeline {
     stages {
         stage("DEPLOY"){
             steps{
-                sh "python -m venv venv"
+                sh "python311 -m venv venv"
                 withPythonEnv(venv_bin){
                     sh "pip install poetry"
                     sh "poetry install --with dev,tests,docs"
@@ -68,6 +66,7 @@ pipeline {
                             sh "poe export-dependencies"
                             archiveArtifacts artifacts: "dependencies_bom.xml"
                         }
+
                     },
                     dependencies_outdated: {
                         withPythonEnv(venv_bin){
@@ -95,12 +94,6 @@ pipeline {
                     archiveArtifacts artifacts: "dist/*", onlyIfSuccessful: true
                 }
             }
-        }
-    }
-
-    post {
-        always{
-            deleteDir()
         }
     }
 }
