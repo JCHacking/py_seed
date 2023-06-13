@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label "python"
+    }
 
     environment {
         venv = "${pwd()}/venv"
@@ -9,7 +11,7 @@ pipeline {
     stages {
         stage("DEPLOY"){
             steps{
-                sh "python311 -m venv venv"
+                sh "python -m venv venv"
                 withPythonEnv(venv_bin){
                     sh "pip install poetry"
                     sh "poetry install --with dev,tests,docs"
